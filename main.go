@@ -16,6 +16,7 @@ func main() {
 		uvc.Commit()
 	case "restore":
 		uvc.Restore()
-
+	case "checkout":
+		uvc.Checkout()
 	}
 }

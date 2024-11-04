@@ -51,3 +51,7 @@ func Restore() {
 	revision := getRevision(branch.headRevision.hash)
 	revision.restore()
 }
+
+func Checkout() {
+	checkoutBranch(os.Args[2])
+}

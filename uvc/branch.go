@@ -14,6 +14,21 @@ type Branch struct {
 	revisions    []Revision
 }
 
+func checkoutBranch(name string) Branch {
+	var b Branch
+	_, err := os.Stat(getBranchPath(name))
+	if errors.Is(err, os.ErrNotExist) {
+		b = getCurrentBranch()
+		b.name = name
+		b.store()
+		setCurrentBranch(name)
+	} else {
+		b = getBranch(name)
+		setCurrentBranch(name)
+	}
+	return b
+}
+
 func getCurrentBranch() Branch {
 	branch, err := os.ReadFile(".uvc/current")
 	if err != nil {
@@ -44,18 +59,18 @@ func getBranch(name string) Branch {
 	if err != nil {
 		if errors.Is(err, os.ErrNotExist) {
 			b = Branch{
-				name: name,
+				name:         name,
 				headRevision: Revision{},
-				revisions: []Revision{},
+				revisions:    []Revision{},
 			}
 		} else {
 			log.Fatal(err)
 		}
 	} else {
 		b = Branch{
-			name: name,
+			name:         name,
 			headRevision: revisions[len(revisions)-1],
-			revisions: revisions,
+			revisions:    revisions,
 		}
 	}
 	return b
