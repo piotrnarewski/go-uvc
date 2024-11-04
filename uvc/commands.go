@@ -40,11 +40,14 @@ func Status() {
 }
 
 func Commit() {
+	branch := getCurrentBranch()
 	revision := newRevision()
 	revision.store()
+	branch.updateRevisions(revision)
 }
 
 func Restore() {
-	revision := getRevision("81146d1604796f0432b2b59ab9ed6ff3e5bf75f1")
+	branch := getCurrentBranch()
+	revision := getRevision(branch.headRevision.hash)
 	revision.restore()
 }

@@ -101,3 +101,7 @@ func (r Revision) Bytes() []byte {
 	}
 	return buffer.Bytes()
 }
+
+func (r Revision) String() string {
+	return r.hash
+}
